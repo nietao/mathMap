@@ -39,12 +39,41 @@ class ViewController: UIViewController {
             d = Double(Double(2*S)/Double(a));
             e = Double(Double(2*S)/Double(b));
             f = Double(Double(2*S)/Double(c));
+            //取最大值
+            var max = (d > e) ? d : e;
+            max = (max > f) ? max : f;
             
-            let str:String = "d = " + String(d) + "\n" + "e = " + String(e) + "\n" + "f = " + String(f) + "\n" + "S = " + String(S) + "\n" + "p = " + String(p);
-            TF_RESULT.text = str;
+            //求 bd dc
+            //三种情况 ad为最长高。 对应高为
+            var des:String = "";
+            if(max == e){
+                let bd:Double = sqrt(a * a - e * e);
+                let dc:Double = b - bd;
+                des = getString(bd: bd, dc: dc, bc: b);
+//                des = "当前高位于bc上 \n" + " bd = " + String(bd) + "\n dc = " + String(dc);
+            } else if(max == d) {
+                let ad:Double = sqrt(c * c - d * d);
+                let db:Double = a - ad;
+//                des = "当前高位于ab上 \n " + "ad = " + String(ad) + "\n db = " + String(db);
+                des = getString(bd: ad, dc: db, bc: a);
+            } else if(max == f){
+                let ad:Double = sqrt(a * a - f * f);
+                let dc:Double = c - ad;
+//                des = "当前高位于ac上, \n " + "ad = " + String(ad) + "\n dc = " + String(dc);
+                des = getString(bd: ad, dc: dc, bc: c);
+            }
+            
+//            let str:String = "d = " + String(d) + "\n" + "e = " + String(e) + "\n" + "f = " + String(f) + "\n" + "S = " + String(S) + "\n" + "p = " + String(p);
+
+            TF_RESULT.text = des ;
         }
       
     }
+    func getString(bd:Double, dc:Double, bc:Double)->String{
+       let des = " bd = " + String(format: "%.2f",bd) + "\n dc = " + String(format: "%.2f",dc) + "\n bc = " + String(format: "%.2f",bc);
+        return des;
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
